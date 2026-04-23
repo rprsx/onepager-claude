@@ -516,9 +516,296 @@
     margin-bottom: 0;
   }
 
-  .exec-box-number { font-size: 13px; font-weight: 700; color: var(--coral); }
-  .exec-box-title { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-</style>
+  /* ── INTRO CONTEXT ── */
+  .intro-context {
+    border: 1px solid var(--line);
+    background: white;
+    margin-bottom: 28px;
+  }
+
+  .intro-context-header {
+    padding: 12px 20px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .intro-context-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--line);
+  }
+
+  .intro-context-col {
+    background: white;
+    padding: 20px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  .intro-context-col strong { color: var(--ink); }
+
+  .intro-context-col p { margin-bottom: 10px; }
+  .intro-context-col p:last-child { margin-bottom: 0; }
+
+  .intro-new-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--coral);
+    color: white;
+    padding: 2px 7px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* ── MODEL SELECTOR ILLUSTRATION ── */
+  .selector-illustration {
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    margin-bottom: 16px;
+    padding: 18px 20px;
+  }
+
+  .selector-illustration-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 14px;
+  }
+
+  .selector-illustration-label::before { content: "▸ "; color: var(--coral); }
+
+  .selector-mock {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 520px;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(26,24,22,0.06);
+  }
+
+  .selector-mock-bar {
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line);
+    padding: 10px 16px;
+    font-size: 11px;
+    color: var(--ink-mute);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .selector-mock-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--line);
+    display: inline-block;
+  }
+
+  .selector-mock-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .selector-mock-input {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--ink-mute);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .selector-mock-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2px;
+  }
+
+  .selector-mock-model-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--paper-2);
+    border: 1.5px solid var(--coral);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    position: relative;
+  }
+
+  .selector-mock-model-btn .arrow { color: var(--coral); font-size: 10px; }
+
+  .selector-mock-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .selector-mock-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .selector-mock-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--ink);
+  }
+
+  .selector-mock-send {
+    width: 32px; height: 32px;
+    background: var(--ink);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+  }
+
+  .selector-caption {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  .selector-caption strong { color: var(--ink); }
+
+  /* ── COST COMPARISON (redesigned) ── */
+  .cost-comparison {
+    border: 1px solid var(--line);
+    background: white;
+    overflow: hidden;
+  }
+
+  .cost-comparison-header {
+    padding: 10px 20px;
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .cost-comparison-header::before { content: "▸ "; color: var(--coral); }
+
+  .cost-rows { padding: 0; }
+
+  .cost-comparison-row {
+    display: grid;
+    grid-template-columns: 130px 1fr 160px;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cost-comparison-row:last-child { border-bottom: none; }
+
+  .cost-comparison-row.header-row {
+    padding: 8px 20px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cost-col-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .cost-model-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .cost-model-price { font-size: 11px; color: var(--ink-mute); margin-top: 2px; }
+
+  .cost-bar-area { position: relative; }
+
+  .cost-bar-bg { height: 10px; background: var(--paper-2); border-radius: 2px; overflow: hidden; }
+
+  .cost-bar-fg {
+    height: 100%;
+    background: var(--coral);
+    border-radius: 2px;
+    opacity: 0.35;
+  }
+
+  .cost-bar-fg.full { opacity: 1; }
+  .cost-bar-fg.mid  { opacity: 0.65; }
+  .cost-bar-fg.low  { opacity: 0.35; }
+
+  .cost-bar-label {
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-top: 5px;
+  }
+
+  .cost-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink);
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    padding: 4px 10px;
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .cost-badge.highlight {
+    background: var(--coral-soft);
+    border-color: var(--coral-line);
+    color: var(--coral);
+  }
+
+  .cost-note-row {
+    padding: 12px 20px;
+    background: var(--coral-soft);
+    border-top: 1px solid var(--coral-line);
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .cost-note-row strong { color: var(--ink); }
 </head>
 <body>
 
@@ -544,6 +831,49 @@
     </div>
     <div class="masthead-tag">Resumo</div>
   </header>
+
+  <div class="intro-context">
+    <div class="intro-context-header">O que são modelos Claude e por que isso importa para você</div>
+    <div class="intro-context-body">
+      <div class="intro-context-col">
+        <p>A Anthropic é a empresa por trás do Claude — a inteligência artificial que usamos aqui. Assim como softwares têm versões diferentes para usos diferentes, o Claude existe em <strong>três modelos principais</strong>, cada um com um perfil distinto de velocidade, inteligência e custo.</p>
+        <p>Escolher o modelo certo não é detalhe técnico — é a diferença entre gastar pouco e gastar muito, entre terminar o limite do dia em 2 horas ou durar a semana inteira. <strong>A mesma tarefa pode custar até 5× mais dependendo do modelo escolhido.</strong></p>
+        <p>Este guia existe para que cada pessoa da equipe saiba, sem precisar perguntar, qual modelo usar em cada situação.</p>
+      </div>
+      <div class="intro-context-col">
+        <p>Os três modelos disponíveis são <strong>Haiku</strong> (rápido e econômico), <strong>Sonnet</strong> (o padrão para o dia a dia) e <strong>Opus</strong> (o mais poderoso, para quando realmente precisar).</p>
+        <p><span class="intro-new-badge">Novo</span> Em abril de 2026 foi lançado o <strong>Opus 4.7</strong> — a versão mais recente e mais inteligente disponível ao público. Ele trouxe melhorias reais em raciocínio e código, mas também mudanças que afetam o consumo de tokens. Entender o que mudou é parte deste guia.</p>
+        <p>A regra prática que resume tudo: <strong>comece sempre pelo Sonnet. Suba para o Opus só quando o Sonnet falhar.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="selector-illustration">
+    <p class="selector-illustration-label">Como selecionar o modelo no Claude.ai</p>
+    <div class="selector-mock">
+      <div class="selector-mock-bar">
+        <span class="selector-mock-dot"></span>
+        <span class="selector-mock-dot"></span>
+        <span class="selector-mock-dot"></span>
+        <span style="margin-left:8px;">claude.ai</span>
+      </div>
+      <div class="selector-mock-body">
+        <div class="selector-mock-input">
+          <span>Como posso te ajudar hoje?</span>
+        </div>
+        <div class="selector-mock-actions">
+          <div class="selector-mock-dropdown">
+            <div class="selector-mock-tooltip">Clique aqui para trocar o modelo</div>
+            <div class="selector-mock-model-btn">
+              ✦ Sonnet 4.6 <span class="arrow">▾</span>
+            </div>
+          </div>
+          <div class="selector-mock-send">↑</div>
+        </div>
+      </div>
+    </div>
+    <p class="selector-caption">O seletor de modelo fica <strong>na barra de input</strong>, ao lado do botão de envio. Clique nele antes de começar cada conversa para escolher entre Haiku, Sonnet e Opus.</p>
+  </div>
 
   <p class="section-label">Os 3 principais modelos para usar</p>
 
@@ -622,21 +952,53 @@
     </div>
   </div>
 
-  <div class="two-col">
-    <div class="panel">
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 28px;">
+
+    <div style="background: white; padding: 22px 20px;">
       <p class="panel-title">Custo relativo entre modelos</p>
 
-      <div class="cost-row">
-        <div class="cost-meta"><span>Haiku 4.5</span><span>1× base</span></div>
-        <div class="bar-track"><div class="bar-fill haiku"></div></div>
+      <div class="cost-comparison-row header-row" style="padding: 6px 0; background: transparent; border: none; grid-template-columns: 130px 1fr 160px;">
+        <span class="cost-col-label">Modelo</span>
+        <span class="cost-col-label">Custo relativo</span>
+        <span class="cost-col-label">Preço / MTok</span>
       </div>
-      <div class="cost-row">
-        <div class="cost-meta"><span>Sonnet 4.6</span><span>3× mais caro que Haiku</span></div>
-        <div class="bar-track"><div class="bar-fill sonnet"></div></div>
+
+      <div style="border-top: 1px solid var(--line); margin-bottom: 12px;"></div>
+
+      <div style="display: grid; grid-template-columns: 110px 1fr 140px; align-items: center; gap: 14px; margin-bottom: 14px;">
+        <div>
+          <div class="cost-model-name" style="font-size:13px;">Haiku 4.5</div>
+          <div class="cost-model-price">mais econômico</div>
+        </div>
+        <div>
+          <div class="cost-bar-bg"><div class="cost-bar-fg low" style="width:20%;"></div></div>
+          <div class="cost-bar-label">1× — base de referência</div>
+        </div>
+        <div class="cost-badge">$1 in · $5 out</div>
       </div>
-      <div class="cost-row">
-        <div class="cost-meta"><span>Opus 4.7</span><span>5× mais caro que Haiku</span></div>
-        <div class="bar-track"><div class="bar-fill opus"></div></div>
+
+      <div style="display: grid; grid-template-columns: 110px 1fr 140px; align-items: center; gap: 14px; margin-bottom: 14px;">
+        <div>
+          <div class="cost-model-name" style="font-size:13px;">Sonnet 4.6</div>
+          <div class="cost-model-price">recomendado</div>
+        </div>
+        <div>
+          <div class="cost-bar-bg"><div class="cost-bar-fg mid" style="width:60%;"></div></div>
+          <div class="cost-bar-label">3× mais caro que Haiku</div>
+        </div>
+        <div class="cost-badge highlight">$3 in · $15 out</div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 110px 1fr 140px; align-items: center; gap: 14px; margin-bottom: 16px;">
+        <div>
+          <div class="cost-model-name" style="font-size:13px;">Opus 4.7</div>
+          <div class="cost-model-price">use com critério</div>
+        </div>
+        <div>
+          <div class="cost-bar-bg"><div class="cost-bar-fg full" style="width:100%;"></div></div>
+          <div class="cost-bar-label">5× mais caro que Haiku</div>
+        </div>
+        <div class="cost-badge">$5 in · $25 out</div>
       </div>
 
       <div class="note">
@@ -644,7 +1006,7 @@
       </div>
     </div>
 
-    <div class="panel">
+    <div style="background: white; padding: 22px 20px;">
       <p class="panel-title">5 práticas para não "acabar rápido"</p>
       <div class="tip"><div class="tip-n">01</div><div><strong>Escolha o modelo antes de começar.</strong> Não deixe tudo em Opus por padrão.</div></div>
       <div class="tip"><div class="tip-n">02</div><div><strong>Conversas curtas e focadas.</strong> Inicie uma nova conversa para cada tarefa.</div></div>
@@ -652,6 +1014,7 @@
       <div class="tip"><div class="tip-n">04</div><div><strong>Peça concisão no prompt.</strong> "Responda em no máximo X frases." Output custa mais.</div></div>
       <div class="tip"><div class="tip-n">05</div><div><strong>API: prompt caching + Batch API.</strong> Até 90% de redução no custo de input.</div></div>
     </div>
+
   </div>
 
   <footer>
