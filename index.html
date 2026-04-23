@@ -66,7 +66,8 @@
   .tab-label:hover { background: rgba(255,255,255,0.6); color: var(--ink); }
 
   #tab1:checked ~ .tab-nav .label1,
-  #tab2:checked ~ .tab-nav .label2 {
+  #tab2:checked ~ .tab-nav .label2,
+  #tab3:checked ~ .tab-nav .label3 {
     background: white;
     color: var(--coral);
     font-weight: 700;
@@ -75,7 +76,88 @@
 
   .tab-content { display: none; }
   #tab1:checked ~ .content1,
-  #tab2:checked ~ .content2 { display: block; }
+  #tab2:checked ~ .content2,
+  #tab3:checked ~ .content3 { display: block; }
+
+  /* ── PROMPT CARDS ── */
+  .prompt-group { margin-bottom: 36px; }
+
+  .prompt-group-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 20px;
+    background: var(--ink);
+    color: var(--paper);
+    margin-bottom: 0;
+  }
+
+  .prompt-group-number { font-size: 13px; font-weight: 700; color: var(--coral); }
+  .prompt-group-title  { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .prompt-group-price  { font-size: 11px; color: var(--ink-mute); margin-left: auto; }
+
+  .prompt-group-desc {
+    padding: 12px 20px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-top: none;
+    border-bottom: none;
+    line-height: 1.55;
+  }
+
+  .prompt-group-desc strong { color: var(--ink); }
+
+  .prompt-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-top: none;
+  }
+
+  .prompt-card { background: white; padding: 20px; }
+
+  .prompt-card-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 10px;
+  }
+
+  .prompt-card-label::before { content: "▸ "; color: var(--coral); }
+
+  .prompt-card-usecase {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .prompt-box {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    padding: 14px 16px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+
+  .prompt-box strong { color: var(--ink); }
+
+  .prompt-card-tip {
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .prompt-card-tip strong { color: var(--ink-soft); }
 
   /* ── HEADER ── */
   header {
@@ -162,8 +244,16 @@
     margin-bottom: 28px;
   }
 
-  .model-card { background: var(--paper); padding: 22px 20px; }
+  .model-card { background: var(--paper); padding: 22px 20px; display: flex; flex-direction: column; }
   .model-card.sonnet { background: white; }
+
+  /* spacer so cards without badge align with Sonnet card */
+  .model-card-top {
+    min-height: 28px;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 6px;
+  }
 
   .model-name {
     font-size: 15px;
@@ -176,7 +266,6 @@
     font-size: 11px;
     color: var(--ink-mute);
     margin-bottom: 14px;
-    font-family: "Monaco", "Menlo", monospace;
   }
 
   .model-desc {
@@ -203,7 +292,6 @@
     background: var(--coral);
     color: white;
     padding: 2px 8px;
-    margin-bottom: 8px;
   }
 
   /* ── UPDATE BOX ── */
@@ -436,10 +524,12 @@
 
 <input type="radio" name="tabs" id="tab1" class="tab-radio" checked>
 <input type="radio" name="tabs" id="tab2" class="tab-radio">
+<input type="radio" name="tabs" id="tab3" class="tab-radio">
 
 <nav class="tab-nav">
   <label for="tab1" class="tab-label label1">Resumo</label>
   <label for="tab2" class="tab-label label2">Guia completo</label>
+  <label for="tab3" class="tab-label label3">Exemplos de prompts</label>
 </nav>
 
 <!-- ══════════════════════════════════════
@@ -449,7 +539,7 @@
 
   <header>
     <div>
-      <div class="masthead-title">Modelos <span class="accent">Claude</span></div>
+      <div class="masthead-title">Modelos <span class="accent">Claude</span> — entendendo como funcionam e qual usar</div>
       <div class="masthead-sub">Guia de uso e consumo · Referência interna · Abril 2026</div>
     </div>
     <div class="masthead-tag">Resumo</div>
@@ -466,6 +556,7 @@
 
   <div class="models">
     <div class="model-card">
+      <div class="model-card-top"></div>
       <div class="model-name">Haiku 4.5</div>
       <div class="model-price">Input $1 · Output $5 / MTok</div>
       <div class="model-desc">Volume, velocidade, tarefas repetitivas.</div>
@@ -480,7 +571,7 @@
     </div>
 
     <div class="model-card sonnet">
-      <div class="rec-badge">Padrão recomendado</div>
+      <div class="model-card-top"><div class="rec-badge">Padrão recomendado</div></div>
       <div class="model-name">Sonnet 4.6</div>
       <div class="model-price">Input $3 · Output $15 / MTok</div>
       <div class="model-desc">80–90% do trabalho. Melhor custo-benefício.</div>
@@ -495,6 +586,7 @@
     </div>
 
     <div class="model-card">
+      <div class="model-card-top"></div>
       <div class="model-name">Opus 4.7</div>
       <div class="model-price">Input $5 · Output $25 / MTok</div>
       <div class="model-desc">Quando qualidade é inegociável e Sonnet falhou.</div>
@@ -576,7 +668,7 @@
 
   <header>
     <div>
-      <div class="masthead-title">Modelos <span class="accent">Claude</span></div>
+      <div class="masthead-title">Modelos <span class="accent">Claude</span> — entendendo como funcionam e qual usar</div>
       <div class="masthead-sub">Guia completo · Referência interna · Abril 2026</div>
     </div>
     <div class="masthead-tag">Guia completo</div>
@@ -760,6 +852,196 @@
       <li><strong>Delegue tarefas completas no primeiro turno.</strong> Estruture objetivo, escopo, restrições e critérios de aceitação logo no primeiro prompt.</li>
       <li><strong>Roteamento de modelos.</strong> Use Haiku para classificar, Sonnet para processar, e Opus só para escalar casos difíceis. Pode reduzir custos em 60–70%.</li>
     </ul>
+  </div>
+
+  <footer>
+    <p>anthropic.com/news/claude-opus-4-7 · platform.claude.com/docs</p>
+    <p class="tagline">Sonnet <span class="accent">primeiro.</span> Sempre.</p>
+  </footer>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     ABA 3 — EXEMPLOS DE PROMPTS
+═══════════════════════════════════════ -->
+<div class="tab-content content3">
+
+  <header>
+    <div>
+      <div class="masthead-title">Modelos <span class="accent">Claude</span> — entendendo como funcionam e qual usar</div>
+      <div class="masthead-sub">Exemplos de prompts por modelo · Referência interna · Abril 2026</div>
+    </div>
+    <div class="masthead-tag">Prompts</div>
+  </header>
+
+  <p class="section-label">Como usar cada modelo na prática</p>
+
+  <div class="guide-callout" style="margin-bottom: 28px;">
+    Os prompts abaixo são exemplos reais de como estruturar cada pedido para o modelo certo. O objetivo não é copiar — é entender o <strong>nível de detalhe, tom e estrutura</strong> que cada modelo responde melhor.
+  </div>
+
+  <!-- HAIKU -->
+  <div class="prompt-group">
+    <div class="prompt-group-header">
+      <div class="prompt-group-number">01</div>
+      <div class="prompt-group-title">Haiku 4.5 — Volume e tarefas repetitivas</div>
+      <div class="prompt-group-price">Input $1 · Output $5 / MTok</div>
+    </div>
+    <div class="prompt-group-desc">
+      Prompts para Haiku devem ser <strong>diretos e bem delimitados</strong>. Sem contexto longo, sem ambiguidade. O modelo é rápido e econômico — ideal quando a tarefa é previsível e o output é curto ou estruturado.
+    </div>
+    <div class="prompt-cards">
+
+      <div class="prompt-card">
+        <div class="prompt-card-label">Classificação de documento</div>
+        <div class="prompt-card-usecase">Tagear e-mails recebidos por assunto</div>
+        <div class="prompt-box">Classifique o e-mail abaixo em uma das categorias: <strong>Financeiro</strong>, <strong>Jurídico</strong>, <strong>Operacional</strong> ou <strong>Outro</strong>.
+
+Responda apenas com o nome da categoria, sem explicação.
+
+E-mail:
+"Segue em anexo a nota fiscal referente ao pagamento da fatura de março."</div>
+        <p class="prompt-card-tip"><strong>Por que funciona:</strong> tarefa binária, output curtíssimo, sem margem para interpretação. Haiku executa isso com 100% de precisão.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-label">Extração de dados</div>
+        <div class="prompt-card-usecase">Extrair campos de um texto não estruturado</div>
+        <div class="prompt-box">Extraia as informações abaixo do texto e retorne em JSON com as chaves: nome, empresa, cargo, email.
+
+Se algum campo não estiver presente, use null.
+
+Texto:
+"Olá, sou Ana Lima, gerente de projetos na WidgetCo. Pode me contatar em ana@widgetco.com."</div>
+        <p class="prompt-card-tip"><strong>Por que funciona:</strong> output estruturado e previsível. Haiku é perfeito para pipelines de extração em escala — sem pagar por poder computacional desnecessário.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-label">Conversão de formato</div>
+        <div class="prompt-card-usecase">Transformar lista em tabela markdown</div>
+        <div class="prompt-box">Converta a lista abaixo em uma tabela markdown com colunas: Produto, Preço, Estoque.
+
+Lista:
+- Caneta azul · R$ 2,50 · 300 unidades
+- Caderno A4 · R$ 18,00 · 45 unidades
+- Grampeador · R$ 35,00 · 12 unidades</div>
+        <p class="prompt-card-tip"><strong>Por que funciona:</strong> conversão mecânica de formato. Não exige raciocínio — só transformação. Haiku faz isso mais rápido e 5× mais barato que o Sonnet.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SONNET -->
+  <div class="prompt-group">
+    <div class="prompt-group-header">
+      <div class="prompt-group-number">02</div>
+      <div class="prompt-group-title">Sonnet 4.6 — O padrão para 80–90% do trabalho</div>
+      <div class="prompt-group-price">Input $3 · Output $15 / MTok</div>
+    </div>
+    <div class="prompt-group-desc">
+      Prompts para Sonnet podem ter <strong>mais contexto, nuance e instruções compostas</strong>. O modelo entende intenção, segue restrições simultâneas e produz texto de alta qualidade. Use para tarefas profissionais do dia a dia.
+    </div>
+    <div class="prompt-cards">
+
+      <div class="prompt-card">
+        <div class="prompt-card-label">Redação profissional</div>
+        <div class="prompt-card-usecase">Escrever e-mail difícil com tom calibrado</div>
+        <div class="prompt-box">Escreva um e-mail para um cliente que está insatisfeito com o atraso na entrega do projeto.
+
+Contexto: o atraso foi de 2 semanas. A causa foi um problema interno de equipe, mas não precisamos entrar em detalhes. O cliente é importante e queremos preservar o relacionamento.
+
+Tom: profissional, empático, sem ser excessivamente submisso. Assuma responsabilidade sem exageros. Proponha uma solução concreta.
+
+Limite: no máximo 150 palavras.</div>
+        <p class="prompt-card-tip"><strong>Por que funciona:</strong> múltiplas restrições simultâneas (tom, limite, contexto, objetivo). Sonnet navega isso com naturalidade — Haiku simplificaria demais.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-label">Análise e síntese</div>
+        <div class="prompt-card-usecase">Comparar opções e recomendar a melhor</div>
+        <div class="prompt-box">Temos três fornecedores para o novo sistema de CRM. Com base nos critérios abaixo, recomende qual contratar e explique o raciocínio em no máximo 3 parágrafos.
+
+Critérios (por ordem de prioridade): integração com ferramentas existentes, custo total de implementação, suporte em português.
+
+Fornecedor A: integração nativa, R$ 80k, suporte apenas em inglês.
+Fornecedor B: integração via API, R$ 55k, suporte em português 24h.
+Fornecedor C: integração nativa, R$ 95k, suporte em português em horário comercial.</div>
+        <p class="prompt-card-tip"><strong>Por que funciona:</strong> análise multi-critério com ponderação de prioridades. Sonnet entrega raciocínio estruturado sem precisar do poder do Opus.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-label">Código do dia a dia</div>
+        <div class="prompt-card-usecase">Revisar e refatorar uma função Python</div>
+        <div class="prompt-box">Revise a função abaixo e sugira melhorias de legibilidade e performance. Mantenha a lógica original.
+
+Após a revisão, explique em 2-3 linhas o que mudou e por quê.
+
+```python
+def calc(l):
+  t = 0
+  for i in l:
+    if i > 0:
+      t = t + i
+  return t / len(l)
+```</div>
+        <p class="prompt-card-tip"><strong>Por que funciona:</strong> revisão de código com contexto claro e output delimitado. Sonnet é preferido por 59% dos devs em Claude Code exatamente para esse tipo de tarefa.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OPUS -->
+  <div class="prompt-group">
+    <div class="prompt-group-header">
+      <div class="prompt-group-number">03</div>
+      <div class="prompt-group-title">Opus 4.7 — Quando a qualidade é inegociável</div>
+      <div class="prompt-group-price">Input $5 · Output $25 / MTok</div>
+    </div>
+    <div class="prompt-group-desc">
+      Prompts para Opus devem <strong>delegar a tarefa completa no primeiro turno</strong>: objetivo, escopo, restrições e critérios de aceitação juntos. O modelo raciocina em profundidade — micro-ajustes passo a passo desperdiçam esse potencial e encarecem desnecessariamente.
+    </div>
+    <div class="prompt-cards">
+
+      <div class="prompt-card">
+        <div class="prompt-card-label">Arquitetura de software</div>
+        <div class="prompt-card-usecase">Decisão técnica de alto impacto</div>
+        <div class="prompt-box">Preciso decidir a arquitetura de um sistema de filas para processar 500k eventos/dia com picos de 10k/min.
+
+Contexto: stack atual é Node.js + PostgreSQL. Time de 4 devs. SLA de processamento: 99% dos eventos em menos de 30s.
+
+Avalie as opções: (1) BullMQ com Redis, (2) RabbitMQ, (3) Kafka.
+
+Para cada opção, analise: adequação ao volume, complexidade operacional, custo de infraestrutura e risco de migração. Ao final, recomende uma e justifique considerando o contexto do time.</div>
+        <p class="prompt-card-tip"><strong>Por que funciona:</strong> decisão com múltiplas variáveis interdependentes, contexto técnico denso e custo alto de erro. Esse é o território do Opus — Sonnet simplificaria a análise.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-label">Análise jurídica complexa</div>
+        <div class="prompt-card-usecase">Identificar riscos em contrato com restrições múltiplas</div>
+        <div class="prompt-box">Analise o contrato de prestação de serviços abaixo sob três perspectivas simultâneas: (1) risco de rescisão unilateral sem justa causa, (2) cláusulas que limitam nossa responsabilidade em caso de atraso, (3) obrigações que podem conflitar com a LGPD.
+
+Para cada ponto, indique o nível de risco (alto/médio/baixo), a cláusula específica e a recomendação de revisão.
+
+[contrato aqui]</div>
+        <p class="prompt-card-tip"><strong>Por que funciona:</strong> análise simultânea de três dimensões jurídicas com restrições legais interdependentes. Sonnet pode perder nuances críticas nesse nível de complexidade.</p>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-label">Agente autônomo</div>
+        <div class="prompt-card-usecase">Tarefa longa delegada no primeiro turno</div>
+        <div class="prompt-box">Você vai auditar o repositório que vou compartilhar e produzir um relatório completo.
+
+Escopo: (1) identificar funções sem testes unitários, (2) mapear dependências desatualizadas com vulnerabilidades conhecidas, (3) detectar padrões de código que violam as convenções do projeto (listadas no README).
+
+Critérios de aceitação: cada item deve ter localização exata (arquivo + linha), severidade (crítico/médio/baixo) e recomendação acionável.
+
+Formato de saída: markdown estruturado com sumário executivo no topo.
+
+Antes de começar, confirme que entendeu o escopo e me diga se precisa de alguma informação adicional.</div>
+        <p class="prompt-card-tip"><strong>Por que funciona:</strong> tarefa autônoma longa com escopo definido, critérios claros e verificação de entendimento antes de iniciar. Estrutura ideal para extrair o máximo do Opus 4.7.</p>
+      </div>
+
+    </div>
   </div>
 
   <footer>
