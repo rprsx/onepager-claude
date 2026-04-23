@@ -1,335 +1,319 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Modelos Claude</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    background: #F7F6F4;
+    color: #1A1A1A;
+    padding: 48px 40px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .page { max-width: 960px; margin: 0 auto; }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 2px solid #1A1A1A;
+    padding-bottom: 14px;
+    margin-bottom: 32px;
+  }
+
+  header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  header p { font-size: 12px; color: #888; margin-top: 3px; }
+
+  .tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    border: 1px solid #C8C8C8;
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 14px;
+  }
+
+  .models {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #D0CFC9;
+    border: 1px solid #D0CFC9;
+    margin-bottom: 32px;
+  }
+
+  .model-card { background: #F7F6F4; padding: 22px 20px; }
+  .model-card.sonnet { background: #EFEFEC; }
+
+  .model-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .model-price { font-size: 11px; color: #888; margin-bottom: 14px; }
+
+  .model-desc {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #D8D7D2;
+  }
+
+  .use-list { list-style: none; font-size: 12px; color: #555; line-height: 1.9; margin-bottom: 12px; }
+  .use-list li::before { content: "– "; color: #AAA; }
+
+  .not-use { font-size: 11px; color: #AAA; line-height: 1.6; }
+  .not-use strong { color: #888; }
+  .price-note { color: #AAA; font-size: 10.5px; }
+
+  .token-explainer {
+    border: 1px solid #D0CFC9;
+    background: #EFEFEC;
+    border-radius: 2px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr;
+    gap: 0 20px;
+    align-items: start;
+  }
+
+  .token-explainer-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    padding-top: 1px;
+    white-space: nowrap;
+  }
+
+  .token-explainer p {
+    font-size: 11.5px;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .token-explainer strong { color: #1A1A1A; }
+
+  .rec-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: #1A1A1A;
+    color: #F7F6F4;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: #D0CFC9;
+    border: 1px solid #D0CFC9;
+    margin-bottom: 32px;
+  }
+
+  .panel { background: #F7F6F4; padding: 22px 20px; }
+
+  .panel-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #D8D7D2;
+  }
+
+  .cost-row { margin-bottom: 12px; }
+  .cost-meta { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; }
+  .cost-meta span:last-child { color: #888; font-size: 11px; }
+  .bar-track { height: 4px; background: #E0DFD9; border-radius: 2px; }
+  .bar-fill { height: 4px; background: #1A1A1A; border-radius: 2px; }
+  .bar-fill.haiku  { width: 20%; }
+  .bar-fill.sonnet { width: 60%; }
+  .bar-fill.opus   { width: 100%; }
+
+  .note {
+    font-size: 11px;
+    color: #666;
+    margin-top: 16px;
+    padding: 10px 12px;
+    background: #EEEDE9;
+    border-radius: 2px;
+    line-height: 1.6;
+  }
+
+  .tip { display: flex; gap: 12px; margin-bottom: 11px; font-size: 12px; color: #555; line-height: 1.5; }
+  .tip-n { flex-shrink: 0; font-size: 10px; font-weight: 700; color: #999; padding-top: 1px; width: 16px; }
+  .tip strong { color: #1A1A1A; }
+
+  .update-box {
+    border: 1px solid #D0CFC9;
+    padding: 20px;
+    margin-bottom: 32px;
+    background: #F7F6F4;
+  }
+
+  .update-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  .update-item { font-size: 12px; color: #555; line-height: 1.6; }
+  .update-item strong { display: block; font-size: 12.5px; color: #1A1A1A; margin-bottom: 4px; font-weight: 700; }
+
+  footer {
+    border-top: 1px solid #D0CFC9;
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p { font-size: 11px; color: #AAA; }
+  .tagline { font-size: 13px; font-weight: 700; letter-spacing: -0.2px; color: #1A1A1A; }
+</style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="pt-BR"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1">&lt;title&gt;Guia de Modelos Claude&lt;/title&gt;</p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>* { box-sizing: border-box; margin: 0; padding: 0; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-family: Helvetica, Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: #F7F6F4;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #1A1A1A;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 48px 40px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 13px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.5;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.page { max-width: 960px; margin: 0 auto; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>header {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: baseline;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 2px solid #1A1A1A;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding-bottom: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 32px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>header p { font-size: 12px; color: #888; margin-top: 3px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.tag {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 1.5px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #888;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid #C8C8C8;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 4px 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.section-label {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #999;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.models {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns: repeat(3, 1fr);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 1px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: #D0CFC9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid #D0CFC9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 32px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.model-card { background: #F7F6F4; padding: 22px 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.model-card.sonnet { background: #EFEFEC; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.model-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.model-price { font-size: 11px; color: #888; margin-bottom: 14px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.model-desc {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 12.5px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #333;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding-bottom: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 1px solid #D8D7D2;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.use-list { list-style: none; font-size: 12px; color: #555; line-height: 1.9; margin-bottom: 12px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.use-list li::before { content: "– "; color: #AAA; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.not-use { font-size: 11px; color: #AAA; line-height: 1.6; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.not-use strong { color: #888; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.price-note { color: #AAA; font-size: 10.5px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.token-explainer {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid #D0CFC9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: #EFEFEC;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 16px 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns: auto 1fr 1fr 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 0 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: start;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.token-explainer-title {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 1.5px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #888;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding-top: 1px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>white-space: nowrap;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.token-explainer p {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 11.5px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #555;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.6;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.token-explainer strong { color: #1A1A1A; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.rec-badge {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: inline-block;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 9px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>letter-spacing: 1px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: #1A1A1A;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #F7F6F4;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 2px 7px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.two-col {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>grid-template-columns: 1fr 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>gap: 1px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: #D0CFC9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid #D0CFC9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 32px;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.panel { background: #F7F6F4; padding: 22px 20px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.panel-title {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 13px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-weight: 700;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding-bottom: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-bottom: 1px solid #D8D7D2;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cost-row { margin-bottom: 12px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cost-meta { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.cost-meta span:last-child { color: #888; font-size: 11px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.bar-track { height: 4px; background: #E0DFD9; border-radius: 2px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.bar-fill { height: 4px; background: #1A1A1A; border-radius: 2px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.bar-fill.haiku<span class="Apple-converted-space">  </span>{ width: 20%; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.bar-fill.sonnet { width: 60%; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.bar-fill.opus <span class="Apple-converted-space">  </span>{ width: 100%; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.note {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>font-size: 11px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>color: #666;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-top: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 10px 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: #EEEDE9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-radius: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>line-height: 1.6;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.tip { display: flex; gap: 12px; margin-bottom: 11px; font-size: 12px; color: #555; line-height: 1.5; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.tip-n { flex-shrink: 0; font-size: 10px; font-weight: 700; color: #999; padding-top: 1px; width: 16px; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.tip strong { color: #1A1A1A; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.update-box {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border: 1px solid #D0CFC9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>margin-bottom: 32px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>background: #F7F6F4;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.update-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>.update-item { font-size: 12px; color: #555; line-height: 1.6; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.update-item strong { display: block; font-size: 12.5px; color: #1A1A1A; margin-bottom: 4px; font-weight: 700; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer {</p>
-<p class="p1"><span class="Apple-converted-space">    </span>border-top: 1px solid #D0CFC9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>padding-top: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>footer p { font-size: 11px; color: #AAA; }</p>
-<p class="p1"><span class="Apple-converted-space">  </span>.tagline { font-size: 13px; font-weight: 700; letter-spacing: -0.2px; color: #1A1A1A; }</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1">&lt;div class="page"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;header&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h1&gt;Modelos Claude — Guia de Uso e Consumo&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Referência interna · Abril 2026&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="tag"&gt;One-pager&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;p class="section-label"&gt;Os 3 principais modelos para usar&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="token-explainer"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="token-explainer-title"&gt;Como entender os preços&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;A Anthropic cobra por &lt;strong&gt;tokens&lt;/strong&gt; — a unidade mínima de texto que o modelo processa. Na prática, 1 token equivale a cerca de 4 caracteres em inglês; em português, um pouco mais. Uma página A4 densa tem aproximadamente 600–700 tokens.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Os preços são sempre expressos &lt;strong&gt;por milhão de tokens&lt;/strong&gt; — o que equivale a cerca de 750 mil palavras, ou algo como 1.500 páginas de texto. Na maioria dos usos do dia a dia, você está consumindo frações desse volume.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Há dois tipos de cobrança: &lt;strong&gt;input&lt;/strong&gt; (o que você envia — seu prompt, documentos, histórico da conversa) e &lt;strong&gt;output&lt;/strong&gt; (o que o modelo responde). O output custa entre 3× e 5× mais, dependendo do modelo.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="models"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="model-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="model-name"&gt;Haiku 4.5&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="model-price"&gt;Input US$ 1 · Output US$ 5&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="model-desc"&gt;Volume, velocidade, tarefas repetitivas.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;ul class="use-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Classificação e tagging de documentos&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Resumos curtos e FAQs&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Conversão de formatos (CSV → JSON)&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;E-mails padronizados&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Pipelines de alto volume&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="not-use"&gt;&lt;strong&gt;Evitar:&lt;/strong&gt; raciocínio multi-etapas, código complexo.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="model-card sonnet"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="rec-badge"&gt;Padrão recomendado&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="model-name"&gt;Sonnet 4.6&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="model-price"&gt;Input US$ 3 · Output US$ 15&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="model-desc"&gt;80–90% do trabalho. Melhor custo-benefício.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;ul class="use-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Escrever, revisar e refatorar código&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Redação: posts, docs, relatórios, propostas&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Síntese de múltiplas fontes&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Análise de dados e workflows multi-step&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Agentes com tool use&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="not-use"&gt;&lt;strong&gt;Evitar:&lt;/strong&gt; raciocínio extremamente difícil ou agentes autônomos de horas.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="model-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="model-name"&gt;Opus 4.7&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="model-price"&gt;Input US$ 5 · Output US$ 25&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="model-desc"&gt;Quando qualidade é inegociável e Sonnet falhou.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;ul class="use-list"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Arquitetura de software complexo&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Debug de race conditions e memory leaks&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Análise jurídica / regulatória densa&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Agentes autônomos de longa duração&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;li&gt;Imagens de alta resolução (diagramas)&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="not-use"&gt;&lt;strong&gt;Evitar:&lt;/strong&gt; uso reflexivo "para garantir". Se Sonnet serve, use Sonnet.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="update-box"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="panel-title"&gt;Novidades do Opus 4.7 — lançado em 16/04/2026&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="update-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="update-item"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;Tokenizer atualizado&lt;/strong&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>O mesmo prompt pode gerar até 35% mais tokens de input. Custo invisível se não monitorado.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="update-item"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;Mais raciocínio interno&lt;/strong&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>O modelo "pensa mais" em conversas longas. Gera mais tokens de output — melhor qualidade, custo maior.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="update-item"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;Recomendação prática&lt;/strong&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Delegue a tarefa completa no primeiro turno: objetivo, escopo, restrições. Micro-ajustes multiplicam o consumo.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="two-col"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="panel-title"&gt;Custo relativo entre modelos&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="cost-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="cost-meta"&gt;&lt;span&gt;Haiku 4.5&lt;/span&gt;&lt;span&gt;1× — base de referência&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bar-track"&gt;&lt;div class="bar-fill haiku"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="cost-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="cost-meta"&gt;&lt;span&gt;Sonnet 4.6&lt;/span&gt;&lt;span&gt;3× mais caro que Haiku&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bar-track"&gt;&lt;div class="bar-fill sonnet"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="cost-row"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="cost-meta"&gt;&lt;span&gt;Opus 4.7&lt;/span&gt;&lt;span&gt;5× mais caro que Haiku&lt;/span&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bar-track"&gt;&lt;div class="bar-fill opus"&gt;&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="note"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Output custa 3–5× mais que input. Cada mensagem reprocessa &lt;strong&gt;todo o histórico&lt;/strong&gt; como input — conversas longas ficam progressivamente mais caras.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="panel-title"&gt;5 práticas para não "acabar rápido"&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="tip"&gt;&lt;div class="tip-n"&gt;01&lt;/div&gt;&lt;div&gt;&lt;strong&gt;Escolha o modelo antes de começar.&lt;/strong&gt; Não deixe tudo em Opus por padrão.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="tip"&gt;&lt;div class="tip-n"&gt;02&lt;/div&gt;&lt;div&gt;&lt;strong&gt;Conversas curtas e focadas.&lt;/strong&gt; Inicie uma nova conversa para cada tarefa.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="tip"&gt;&lt;div class="tip-n"&gt;03&lt;/div&gt;&lt;div&gt;&lt;strong&gt;Envie só o necessário.&lt;/strong&gt; Não cole PDFs inteiros para perguntar algo específico.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="tip"&gt;&lt;div class="tip-n"&gt;04&lt;/div&gt;&lt;div&gt;&lt;strong&gt;Peça concisão no prompt.&lt;/strong&gt; "Responda em no máximo X frases." Output custa mais.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="tip"&gt;&lt;div class="tip-n"&gt;05&lt;/div&gt;&lt;div&gt;&lt;strong&gt;API: prompt caching + Batch API.&lt;/strong&gt; Até 90% de redução no custo de input.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;footer&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p&gt;Fontes: anthropic.com/news/claude-opus-4-7 · platform.claude.com/docs&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="tagline"&gt;Sonnet primeiro. Sempre.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/footer&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+<div class="page">
+
+  <header>
+    <div>
+      <h1>Modelos Claude — Guia de Uso e Consumo</h1>
+      <p>Referência interna · Abril 2026</p>
+    </div>
+    <div class="tag">One-pager</div>
+  </header>
+
+  <p class="section-label">Os 3 principais modelos para usar</p>
+
+  <div class="token-explainer">
+    <p class="token-explainer-title">Como entender os preços</p>
+    <p>A Anthropic cobra por <strong>tokens</strong> — a unidade mínima de texto que o modelo processa. Na prática, 1 token equivale a cerca de 4 caracteres em inglês; em português, um pouco mais. Uma página A4 densa tem aproximadamente 600–700 tokens.</p>
+    <p>Os preços são sempre expressos <strong>por milhão de tokens</strong> — o que equivale a cerca de 750 mil palavras, ou algo como 1.500 páginas de texto. Na maioria dos usos do dia a dia, você está consumindo frações desse volume.</p>
+    <p>Há dois tipos de cobrança: <strong>input</strong> (o que você envia — seu prompt, documentos, histórico da conversa) e <strong>output</strong> (o que o modelo responde). O output custa entre 3× e 5× mais, dependendo do modelo.</p>
+  </div>
+
+  <div class="models">
+
+    <div class="model-card">
+      <div class="model-name">Haiku 4.5</div>
+      <div class="model-price">Input US$ 1 · Output US$ 5</div>
+      <div class="model-desc">Volume, velocidade, tarefas repetitivas.</div>
+      <ul class="use-list">
+        <li>Classificação e tagging de documentos</li>
+        <li>Resumos curtos e FAQs</li>
+        <li>Conversão de formatos (CSV → JSON)</li>
+        <li>E-mails padronizados</li>
+        <li>Pipelines de alto volume</li>
+      </ul>
+      <p class="not-use"><strong>Evitar:</strong> raciocínio multi-etapas, código complexo.</p>
+    </div>
+
+    <div class="model-card sonnet">
+      <div class="rec-badge">Padrão recomendado</div>
+      <div class="model-name">Sonnet 4.6</div>
+      <div class="model-price">Input US$ 3 · Output US$ 15</div>
+      <div class="model-desc">80–90% do trabalho. Melhor custo-benefício.</div>
+      <ul class="use-list">
+        <li>Escrever, revisar e refatorar código</li>
+        <li>Redação: posts, docs, relatórios, propostas</li>
+        <li>Síntese de múltiplas fontes</li>
+        <li>Análise de dados e workflows multi-step</li>
+        <li>Agentes com tool use</li>
+      </ul>
+      <p class="not-use"><strong>Evitar:</strong> raciocínio extremamente difícil ou agentes autônomos de horas.</p>
+    </div>
+
+    <div class="model-card">
+      <div class="model-name">Opus 4.7</div>
+      <div class="model-price">Input US$ 5 · Output US$ 25</div>
+      <div class="model-desc">Quando qualidade é inegociável e Sonnet falhou.</div>
+      <ul class="use-list">
+        <li>Arquitetura de software complexo</li>
+        <li>Debug de race conditions e memory leaks</li>
+        <li>Análise jurídica / regulatória densa</li>
+        <li>Agentes autônomos de longa duração</li>
+        <li>Imagens de alta resolução (diagramas)</li>
+      </ul>
+      <p class="not-use"><strong>Evitar:</strong> uso reflexivo "para garantir". Se Sonnet serve, use Sonnet.</p>
+    </div>
+
+  </div>
+
+  <div class="update-box">
+    <p class="panel-title">Novidades do Opus 4.7 — lançado em 16/04/2026</p>
+    <div class="update-grid">
+      <div class="update-item">
+        <strong>Tokenizer atualizado</strong>
+        O mesmo prompt pode gerar até 35% mais tokens de input. Custo invisível se não monitorado.
+      </div>
+      <div class="update-item">
+        <strong>Mais raciocínio interno</strong>
+        O modelo "pensa mais" em conversas longas. Gera mais tokens de output — melhor qualidade, custo maior.
+      </div>
+      <div class="update-item">
+        <strong>Recomendação prática</strong>
+        Delegue a tarefa completa no primeiro turno: objetivo, escopo, restrições. Micro-ajustes multiplicam o consumo.
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+
+    <div class="panel">
+      <p class="panel-title">Custo relativo entre modelos</p>
+
+      <div class="cost-row">
+        <div class="cost-meta"><span>Haiku 4.5</span><span>1× — base de referência</span></div>
+        <div class="bar-track"><div class="bar-fill haiku"></div></div>
+      </div>
+      <div class="cost-row">
+        <div class="cost-meta"><span>Sonnet 4.6</span><span>3× mais caro que Haiku</span></div>
+        <div class="bar-track"><div class="bar-fill sonnet"></div></div>
+      </div>
+      <div class="cost-row">
+        <div class="cost-meta"><span>Opus 4.7</span><span>5× mais caro que Haiku</span></div>
+        <div class="bar-track"><div class="bar-fill opus"></div></div>
+      </div>
+
+      <div class="note">
+        Output custa 3–5× mais que input. Cada mensagem reprocessa <strong>todo o histórico</strong> como input — conversas longas ficam progressivamente mais caras.
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-title">5 práticas para não "acabar rápido"</p>
+      <div class="tip"><div class="tip-n">01</div><div><strong>Escolha o modelo antes de começar.</strong> Não deixe tudo em Opus por padrão.</div></div>
+      <div class="tip"><div class="tip-n">02</div><div><strong>Conversas curtas e focadas.</strong> Inicie uma nova conversa para cada tarefa.</div></div>
+      <div class="tip"><div class="tip-n">03</div><div><strong>Envie só o necessário.</strong> Não cole PDFs inteiros para perguntar algo específico.</div></div>
+      <div class="tip"><div class="tip-n">04</div><div><strong>Peça concisão no prompt.</strong> "Responda em no máximo X frases." Output custa mais.</div></div>
+      <div class="tip"><div class="tip-n">05</div><div><strong>API: prompt caching + Batch API.</strong> Até 90% de redução no custo de input.</div></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Fontes: anthropic.com/news/claude-opus-4-7 · platform.claude.com/docs</p>
+    <p class="tagline">Sonnet primeiro. Sempre.</p>
+  </footer>
+
+</div>
 </body>
 </html>
