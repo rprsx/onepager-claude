@@ -235,6 +235,16 @@
 
   .section-label::before { content: "▸ "; color: var(--coral); }
 
+  .subsection-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    margin-top: 4px;
+    padding-left: 14px;
+    border-left: 3px solid var(--line);
+  }
+
   /* ── TOKEN EXPLAINER ── */
   .token-explainer {
     display: grid;
@@ -856,13 +866,14 @@
     <div class="masthead-tag">Resumo</div>
   </header>
 
+  <!-- 1. CONTEXTO -->
   <div class="intro-context">
-    <div class="intro-context-header">O que são modelos Claude e por que isso importa para você</div>
+    <div class="intro-context-header">1. O que são modelos Claude e por que isso importa para você</div>
     <div class="intro-context-body">
       <div class="intro-context-col">
         <p>A Anthropic é a empresa por trás do Claude — a inteligência artificial que usamos aqui. Assim como softwares têm versões diferentes para usos diferentes, o Claude existe em <strong>três modelos principais</strong>, cada um com um perfil distinto de velocidade, inteligência e custo.</p>
         <p>Entender essa diferença ajuda muito no dia a dia: <strong>a mesma tarefa pode custar até 5× mais dependendo do modelo escolhido</strong>, e pequenos ajustes de hábito fazem uma diferença real no quanto cada pessoa consegue fazer antes de atingir o limite.</p>
-        <p>Este guia foi feito para facilitar essa escolha — de forma simples, sem precisar mergulhar em documentação técnica.</p>
+        <p>Este guia foi feito para facilitar essa escolha — de forma simples, sem precisar mergulhar em documentação técnica. <strong>E no final, tem uma lista de dicas práticas que valem muito a pena ler.</strong></p>
       </div>
       <div class="intro-context-col">
         <p>Os três modelos disponíveis são <strong>Haiku</strong> (rápido e econômico), <strong>Sonnet</strong> (o padrão para o dia a dia) e <strong>Opus</strong> (o mais poderoso, para quando realmente precisar).</p>
@@ -872,34 +883,10 @@
     </div>
   </div>
 
-  <div class="selector-illustration">
-    <p class="selector-illustration-label">Como selecionar o modelo no Claude.ai</p>
-    <div class="selector-mock">
-      <div class="selector-mock-bar">
-        <span class="selector-mock-dot"></span>
-        <span class="selector-mock-dot"></span>
-        <span class="selector-mock-dot"></span>
-        <span style="margin-left:8px;">claude.ai</span>
-      </div>
-      <div class="selector-mock-body">
-        <div class="selector-mock-input">
-          <span>Como posso te ajudar hoje?</span>
-        </div>
-        <div class="selector-mock-actions">
-          <div class="selector-mock-dropdown">
-            <div class="selector-mock-tooltip">Clique aqui para trocar o modelo</div>
-            <div class="selector-mock-model-btn">
-              ✦ Sonnet 4.6 <span class="arrow">▾</span>
-            </div>
-          </div>
-          <div class="selector-mock-send">↑</div>
-        </div>
-      </div>
-    </div>
-    <p class="selector-caption">O seletor de modelo fica <strong>na barra de input</strong>, ao lado do botão de envio. Clique nele antes de começar cada conversa para escolher entre Haiku, Sonnet e Opus.</p>
-  </div>
+  <!-- 2. OS 3 MODELOS -->
+  <p class="section-label">2. Os 3 principais modelos para usar</p>
 
-  <p class="section-label">Os 3 principais modelos para usar</p>
+  <p class="subsection-label">2.1 Como entender os preços</p>
 
   <div class="token-explainer">
     <p class="token-explainer-title">Como entender<br>os preços</p>
@@ -907,6 +894,8 @@
     <p>Os preços são expressos <strong>por milhão de tokens</strong> — equivalente a ~750 mil palavras ou ~1.500 páginas. No uso diário, você consome frações desse volume.</p>
     <p>Há dois tipos: <strong>input</strong> (o que você envia — prompt, documentos, histórico) e <strong>output</strong> (a resposta do modelo). Output custa 3–5× mais.</p>
   </div>
+
+  <p class="subsection-label">2.2 Comparativo e o que usar em cada situação</p>
 
   <div class="models">
     <div class="model-card">
@@ -955,6 +944,9 @@
     </div>
   </div>
 
+  <!-- 3. OPUS 4.7 -->
+  <p class="section-label">3. Novidades do Opus 4.7</p>
+
   <div class="update-box">
     <div class="update-box-header">
       <div class="update-box-number">!</div>
@@ -975,6 +967,9 @@
       </div>
     </div>
   </div>
+
+  <!-- 4. DICAS PRÁTICAS -->
+  <p class="section-label">4. Dicas práticas — a cereja do bolo</p>
 
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 28px;">
 
