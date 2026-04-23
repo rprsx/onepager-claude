@@ -5,203 +5,435 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guia de Modelos Claude</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: Helvetica, Arial, sans-serif;
-    background: #F7F6F4;
-    color: #1A1A1A;
-    font-size: 15px;
-    line-height: 1.5;
+  :root {
+    --coral: #D37B5A;
+    --coral-soft: #D37B5A12;
+    --coral-line: #D37B5A40;
+    --ink: #1A1816;
+    --ink-soft: #4A453F;
+    --ink-mute: #8A847B;
+    --paper: #FAF7F2;
+    --paper-2: #F2EDE5;
+    --line: #E5DFD4;
   }
 
-  /* ── TABS (pure CSS via radio inputs) ── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    padding: 28px 36px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── TABS (pure CSS) ── */
   .tab-radio { display: none; }
 
   .tab-nav {
     display: flex;
-    gap: 0;
-    border-bottom: 2px solid #1A1A1A;
-    padding: 0 40px;
-    background: #F7F6F4;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    gap: 4px;
+    padding: 5px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin-bottom: 28px;
   }
 
   .tab-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px;
     font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: #AAA;
-    padding: 16px 20px 14px;
+    font-weight: 600;
+    color: var(--ink-mute);
+    border-radius: 6px;
     cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
-    transition: color 0.15s;
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
     user-select: none;
   }
 
-  .tab-label:hover { color: #555; }
+  .tab-label:hover { background: rgba(255,255,255,0.6); color: var(--ink); }
 
   #tab1:checked ~ .tab-nav .label1,
   #tab2:checked ~ .tab-nav .label2 {
-    color: #1A1A1A;
-    border-bottom: 2px solid #1A1A1A;
+    background: white;
+    color: var(--coral);
+    font-weight: 700;
+    box-shadow: 0 1px 2px rgba(26,24,22,0.04), 0 2px 6px rgba(26,24,22,0.08);
   }
 
-  .tab-content { display: none; padding: 40px; max-width: 960px; margin: 0 auto; }
-
+  .tab-content { display: none; }
   #tab1:checked ~ .content1,
   #tab2:checked ~ .content2 { display: block; }
 
-  /* ── SHARED ── */
+  /* ── HEADER ── */
+  header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 28px;
+  }
+
+  .masthead-title {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .masthead-title .accent { color: var(--coral); }
+
+  .masthead-sub {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 5px;
+  }
+
+  .masthead-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    border: 1px solid var(--line);
+    padding: 5px 12px;
+  }
+
+  /* ── SECTION LABEL ── */
   .section-label {
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #999;
+    color: var(--ink-mute);
     margin-bottom: 14px;
   }
 
-  .panel-title {
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #D8D7D2;
-  }
-
-  /* ── HEADER ── */
-  .doc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    border-bottom: 2px solid #1A1A1A;
-    padding-bottom: 14px;
-    margin-bottom: 32px;
-  }
-
-  .doc-header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
-  .doc-header p  { font-size: 12px; color: #888; margin-top: 3px; }
-
-  .tag {
-    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-    text-transform: uppercase; color: #888;
-    border: 1px solid #C8C8C8; padding: 4px 10px; border-radius: 2px;
-  }
+  .section-label::before { content: "▸ "; color: var(--coral); }
 
   /* ── TOKEN EXPLAINER ── */
   .token-explainer {
-    border: 1px solid #D0CFC9; background: #EFEFEC; border-radius: 2px;
-    padding: 16px 20px; margin-bottom: 14px;
-    display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 0 20px; align-items: start;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr;
+    gap: 0 20px;
+    align-items: start;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    padding: 16px 20px;
+    margin-bottom: 16px;
   }
+
   .token-explainer-title {
-    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-    text-transform: uppercase; color: #888; padding-top: 1px; white-space: nowrap;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    padding-top: 2px;
+    white-space: nowrap;
   }
-  .token-explainer p  { font-size: 11.5px; color: #555; line-height: 1.6; }
-  .token-explainer strong { color: #1A1A1A; }
+
+  .token-explainer p { font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; }
+  .token-explainer strong { color: var(--ink); }
 
   /* ── MODELS GRID ── */
   .models {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1px; background: #D0CFC9; border: 1px solid #D0CFC9; margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    background: var(--line);
+    margin-bottom: 28px;
   }
-  .model-card        { background: #F7F6F4; padding: 22px 20px; }
-  .model-card.sonnet { background: #EFEFEC; }
-  .model-name  { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
-  .model-price { font-size: 11px; color: #888; margin-bottom: 14px; }
-  .model-desc  {
-    font-size: 12.5px; font-weight: 600; color: #333;
-    margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #D8D7D2;
+
+  .model-card { background: var(--paper); padding: 22px 20px; }
+  .model-card.sonnet { background: white; }
+
+  .model-name {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
   }
-  .use-list { list-style: none; font-size: 12px; color: #555; line-height: 1.9; margin-bottom: 12px; }
-  .use-list li::before { content: "– "; color: #AAA; }
-  .not-use { font-size: 11px; color: #AAA; line-height: 1.6; }
-  .not-use strong { color: #888; }
+
+  .model-price {
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-bottom: 14px;
+    font-family: "Monaco", "Menlo", monospace;
+  }
+
+  .model-desc {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .use-list { list-style: none; font-size: 13px; color: var(--ink-soft); line-height: 1.9; margin-bottom: 12px; }
+  .use-list li::before { content: "– "; color: var(--ink-mute); }
+
+  .not-use { font-size: 11.5px; color: var(--ink-mute); line-height: 1.6; }
+  .not-use strong { color: var(--ink-soft); }
+
   .rec-badge {
-    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
-    text-transform: uppercase; background: #1A1A1A; color: #F7F6F4;
-    padding: 2px 7px; border-radius: 2px; margin-bottom: 8px;
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--coral);
+    color: white;
+    padding: 2px 8px;
+    margin-bottom: 8px;
   }
 
   /* ── UPDATE BOX ── */
-  .update-box { border: 1px solid #D0CFC9; padding: 20px; margin-bottom: 32px; background: #F7F6F4; }
-  .update-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .update-item { font-size: 12px; color: #555; line-height: 1.6; }
-  .update-item strong { display: block; font-size: 12.5px; color: #1A1A1A; margin-bottom: 4px; font-weight: 700; }
+  .update-box {
+    border: 1px solid var(--line);
+    background: white;
+    margin-bottom: 28px;
+  }
+
+  .update-box-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .update-box-number {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--coral);
+  }
+
+  .update-box-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .update-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    background: var(--line);
+  }
+
+  .update-item {
+    background: white;
+    padding: 18px 20px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .update-item strong {
+    display: block;
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
 
   /* ── TWO COL ── */
   .two-col {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1px; background: #D0CFC9; border: 1px solid #D0CFC9; margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 28px;
   }
-  .panel { background: #F7F6F4; padding: 22px 20px; }
 
-  .cost-row { margin-bottom: 12px; }
-  .cost-meta { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 12px; }
-  .cost-meta span:last-child { color: #888; font-size: 11px; }
-  .bar-track { height: 4px; background: #E0DFD9; border-radius: 2px; }
-  .bar-fill   { height: 4px; background: #1A1A1A; border-radius: 2px; }
+  .panel { background: white; padding: 22px 20px; }
+
+  .panel-title {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .panel-title::before { content: "▸ "; color: var(--coral); }
+
+  /* ── COST BARS ── */
+  .cost-row { margin-bottom: 14px; }
+
+  .cost-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+
+  .cost-meta span:first-child { font-weight: 700; }
+  .cost-meta span:last-child { font-size: 11px; color: var(--ink-mute); font-family: "Monaco", "Menlo", monospace; }
+
+  .bar-track { height: 5px; background: var(--line); }
+  .bar-fill  { height: 5px; background: var(--coral); transition: width 0.3s; }
   .bar-fill.haiku  { width: 20%; }
   .bar-fill.sonnet { width: 60%; }
   .bar-fill.opus   { width: 100%; }
 
   .note {
-    font-size: 11px; color: #666; margin-top: 16px;
-    padding: 10px 12px; background: #EEEDE9; border-radius: 2px; line-height: 1.6;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: var(--coral-soft);
+    border-left: 3px solid var(--coral-line);
+    line-height: 1.6;
   }
 
-  .tip { display: flex; gap: 12px; margin-bottom: 11px; font-size: 12px; color: #555; line-height: 1.5; }
-  .tip-n { flex-shrink: 0; font-size: 10px; font-weight: 700; color: #999; padding-top: 1px; width: 16px; }
-  .tip strong { color: #1A1A1A; }
+  .note strong { color: var(--ink); }
+
+  /* ── TIPS ── */
+  .tip { display: flex; gap: 14px; margin-bottom: 12px; font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .tip-n { flex-shrink: 0; font-size: 9px; font-weight: 700; color: var(--ink-mute); padding-top: 2px; letter-spacing: 0.08em; width: 18px; }
+  .tip strong { color: var(--ink); }
 
   /* ── FOOTER ── */
-  footer { border-top: 1px solid #D0CFC9; padding-top: 16px; display: flex; justify-content: space-between; align-items: center; }
-  footer p { font-size: 11px; color: #AAA; }
-  .tagline { font-size: 13px; font-weight: 700; letter-spacing: -0.2px; color: #1A1A1A; }
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-  /* ── GUIA COMPLETO ── */
-  .guide-section { margin-bottom: 40px; }
+  footer p { font-size: 11px; color: var(--ink-mute); letter-spacing: 0.02em; }
+  .tagline { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+  .tagline .accent { color: var(--coral); }
+
+  /* ── GUIDE (aba 2) ── */
+  .guide-section { margin-bottom: 36px; }
 
   .guide-h1 {
-    font-size: 18px; font-weight: 700; margin-bottom: 14px;
-    padding-bottom: 10px; border-bottom: 2px solid #1A1A1A;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
   }
 
   .guide-h2 {
-    font-size: 14px; font-weight: 700; margin-bottom: 10px; margin-top: 24px; color: #1A1A1A;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 10px;
+    margin-top: 22px;
   }
 
-  .guide-p { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 10px; }
+  .guide-p { font-size: 14px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 10px; }
 
   .guide-ul { list-style: none; margin: 0 0 12px 0; padding: 0; }
-  .guide-ul li { font-size: 14px; color: #444; line-height: 1.8; padding-left: 16px; position: relative; }
-  .guide-ul li::before { content: "–"; position: absolute; left: 0; color: #AAA; }
+  .guide-ul li { font-size: 14px; color: var(--ink-soft); line-height: 1.8; padding-left: 16px; position: relative; }
+  .guide-ul li::before { content: "–"; position: absolute; left: 0; color: var(--ink-mute); }
 
   .guide-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
   .guide-table th {
-    background: #EFEFEC; text-align: left; font-weight: 700;
-    padding: 9px 12px; border: 1px solid #D0CFC9; color: #333;
+    background: var(--paper-2);
+    text-align: left;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    color: var(--ink-mute);
   }
-  .guide-table td { padding: 8px 12px; border: 1px solid #D0CFC9; color: #444; vertical-align: top; }
-  .guide-table tr:nth-child(even) td { background: #F9F8F6; }
+  .guide-table td {
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .guide-table tr:nth-child(even) td { background: var(--paper); }
+  .guide-table tr:hover td { background: var(--coral-soft); }
+
+  .guide-model-cell { font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .guide-model-cell::before { content: "▸ "; color: var(--coral); }
 
   .guide-callout {
-    background: #EFEFEC; border-left: 3px solid #1A1A1A;
-    padding: 12px 16px; margin: 16px 0; font-size: 13.5px; color: #444; line-height: 1.6;
+    background: var(--coral-soft);
+    border-left: 3px solid var(--coral);
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
   }
-  .guide-callout strong { color: #1A1A1A; }
 
-  .guide-divider { border: none; border-top: 1px solid #D0CFC9; margin: 32px 0; }
+  .guide-callout strong { color: var(--ink); }
+
+  .guide-divider { border: none; border-top: 1px solid var(--line); margin: 32px 0; }
+
+  /* Exec summary table at top */
+  .exec-table { width: 100%; border-collapse: collapse; margin-bottom: 0; font-size: 13px; }
+  .exec-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    line-height: 1.6;
+    vertical-align: top;
+  }
+  .exec-table tr:last-child td { border-bottom: none; }
+  .exec-table tr:hover td { background: var(--coral-soft); }
+  .exec-table td:first-child { font-weight: 700; color: var(--ink); white-space: nowrap; width: 240px; }
+
+  .exec-box {
+    border: 1px solid var(--line);
+    background: white;
+    margin-bottom: 32px;
+  }
+
+  .exec-box-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    background: var(--ink);
+    color: var(--paper);
+    margin-bottom: 0;
+  }
+
+  .exec-box-number { font-size: 13px; font-weight: 700; color: var(--coral); }
+  .exec-box-title { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 </style>
 </head>
 <body>
 
-<!-- Radio inputs controlam as abas (CSS puro) -->
 <input type="radio" name="tabs" id="tab1" class="tab-radio" checked>
 <input type="radio" name="tabs" id="tab2" class="tab-radio">
 
@@ -211,31 +443,31 @@
 </nav>
 
 <!-- ══════════════════════════════════════
-     ABA 1 — ONE-PAGER
+     ABA 1 — RESUMO
 ═══════════════════════════════════════ -->
 <div class="tab-content content1">
 
-  <div class="doc-header">
+  <header>
     <div>
-      <h1>Modelos Claude — Guia de Uso e Consumo</h1>
-      <p>Referência interna · Abril 2026</p>
+      <div class="masthead-title">Modelos <span class="accent">Claude</span></div>
+      <div class="masthead-sub">Guia de uso e consumo · Referência interna · Abril 2026</div>
     </div>
-    <div class="tag">Resumo</div>
-  </div>
+    <div class="masthead-tag">Resumo</div>
+  </header>
 
   <p class="section-label">Os 3 principais modelos para usar</p>
 
   <div class="token-explainer">
-    <p class="token-explainer-title">Como entender os preços</p>
-    <p>A Anthropic cobra por <strong>tokens</strong> — a unidade mínima de texto que o modelo processa. Na prática, 1 token equivale a cerca de 4 caracteres em inglês; em português, um pouco mais. Uma página A4 densa tem aproximadamente 600–700 tokens.</p>
-    <p>Os preços são sempre expressos <strong>por milhão de tokens</strong> — o que equivale a cerca de 750 mil palavras, ou algo como 1.500 páginas de texto. Na maioria dos usos do dia a dia, você está consumindo frações desse volume.</p>
-    <p>Há dois tipos de cobrança: <strong>input</strong> (o que você envia — seu prompt, documentos, histórico da conversa) e <strong>output</strong> (o que o modelo responde). O output custa entre 3× e 5× mais, dependendo do modelo.</p>
+    <p class="token-explainer-title">Como entender<br>os preços</p>
+    <p>A Anthropic cobra por <strong>tokens</strong> — a unidade mínima de texto processada. Na prática, 1 token ≈ 4 caracteres em inglês; em português, um pouco mais. Uma página A4 tem cerca de 600–700 tokens.</p>
+    <p>Os preços são expressos <strong>por milhão de tokens</strong> — equivalente a ~750 mil palavras ou ~1.500 páginas. No uso diário, você consome frações desse volume.</p>
+    <p>Há dois tipos: <strong>input</strong> (o que você envia — prompt, documentos, histórico) e <strong>output</strong> (a resposta do modelo). Output custa 3–5× mais.</p>
   </div>
 
   <div class="models">
     <div class="model-card">
       <div class="model-name">Haiku 4.5</div>
-      <div class="model-price">Input US$ 1 · Output US$ 5</div>
+      <div class="model-price">Input $1 · Output $5 / MTok</div>
       <div class="model-desc">Volume, velocidade, tarefas repetitivas.</div>
       <ul class="use-list">
         <li>Classificação e tagging de documentos</li>
@@ -250,7 +482,7 @@
     <div class="model-card sonnet">
       <div class="rec-badge">Padrão recomendado</div>
       <div class="model-name">Sonnet 4.6</div>
-      <div class="model-price">Input US$ 3 · Output US$ 15</div>
+      <div class="model-price">Input $3 · Output $15 / MTok</div>
       <div class="model-desc">80–90% do trabalho. Melhor custo-benefício.</div>
       <ul class="use-list">
         <li>Escrever, revisar e refatorar código</li>
@@ -264,7 +496,7 @@
 
     <div class="model-card">
       <div class="model-name">Opus 4.7</div>
-      <div class="model-price">Input US$ 5 · Output US$ 25</div>
+      <div class="model-price">Input $5 · Output $25 / MTok</div>
       <div class="model-desc">Quando qualidade é inegociável e Sonnet falhou.</div>
       <ul class="use-list">
         <li>Arquitetura de software complexo</li>
@@ -278,7 +510,10 @@
   </div>
 
   <div class="update-box">
-    <p class="panel-title">Novidades do Opus 4.7 — lançado em 16/04/2026</p>
+    <div class="update-box-header">
+      <div class="update-box-number">!</div>
+      <div class="update-box-title">Novidades do Opus 4.7 — lançado em 16/04/2026</div>
+    </div>
     <div class="update-grid">
       <div class="update-item">
         <strong>Tokenizer atualizado</strong>
@@ -286,7 +521,7 @@
       </div>
       <div class="update-item">
         <strong>Mais raciocínio interno</strong>
-        O modelo "pensa mais" em conversas longas. Gera mais tokens de output — melhor qualidade, custo maior.
+        O modelo "pensa mais" em conversas longas — melhor qualidade, mas mais tokens de output gerados.
       </div>
       <div class="update-item">
         <strong>Recomendação prática</strong>
@@ -298,8 +533,9 @@
   <div class="two-col">
     <div class="panel">
       <p class="panel-title">Custo relativo entre modelos</p>
+
       <div class="cost-row">
-        <div class="cost-meta"><span>Haiku 4.5</span><span>1× — base de referência</span></div>
+        <div class="cost-meta"><span>Haiku 4.5</span><span>1× base</span></div>
         <div class="bar-track"><div class="bar-fill haiku"></div></div>
       </div>
       <div class="cost-row">
@@ -310,6 +546,7 @@
         <div class="cost-meta"><span>Opus 4.7</span><span>5× mais caro que Haiku</span></div>
         <div class="bar-track"><div class="bar-fill opus"></div></div>
       </div>
+
       <div class="note">
         Output custa 3–5× mais que input. Cada mensagem reprocessa <strong>todo o histórico</strong> como input — conversas longas ficam progressivamente mais caras.
       </div>
@@ -326,8 +563,8 @@
   </div>
 
   <footer>
-    <p>Fontes: anthropic.com/news/claude-opus-4-7 · platform.claude.com/docs</p>
-    <p class="tagline">Sonnet primeiro. Sempre.</p>
+    <p>anthropic.com/news/claude-opus-4-7 · platform.claude.com/docs</p>
+    <p class="tagline">Sonnet <span class="accent">primeiro.</span> Sempre.</p>
   </footer>
 
 </div>
@@ -337,45 +574,47 @@
 ═══════════════════════════════════════ -->
 <div class="tab-content content2">
 
-  <div class="doc-header">
+  <header>
     <div>
-      <h1>Modelos Claude — Guia Completo</h1>
-      <p>Referência interna · Abril 2026</p>
+      <div class="masthead-title">Modelos <span class="accent">Claude</span></div>
+      <div class="masthead-sub">Guia completo · Referência interna · Abril 2026</div>
     </div>
-    <div class="tag">Guia completo</div>
-  </div>
+    <div class="masthead-tag">Guia completo</div>
+  </header>
 
-  <!-- RESUMO EXECUTIVO (topo) -->
-  <div class="guide-section">
-    <h2 class="guide-h1">Resumo executivo</h2>
-    <table class="guide-table">
-      <thead>
-        <tr><th>Pergunta</th><th>Resposta curta</th></tr>
-      </thead>
+  <!-- RESUMO EXECUTIVO -->
+  <div class="exec-box">
+    <div class="exec-box-header">
+      <div class="exec-box-number">→</div>
+      <div class="exec-box-title">Resumo executivo — leia isso e pare por aqui se quiser</div>
+    </div>
+    <table class="exec-table">
       <tbody>
-        <tr><td><strong>Qual modelo devo usar?</strong></td><td>Sonnet 4.6 para a maioria das tarefas. Haiku para volume/custo. Opus apenas quando necessário.</td></tr>
-        <tr><td><strong>Por que está acabando rápido?</strong></td><td>Provavelmente você está usando Opus para tudo. O tokenizer do 4.7 também gera 1–1,35× mais tokens.</td></tr>
-        <tr><td><strong>Opus 4.7 custa mais?</strong></td><td>O preço por token é idêntico ao 4.6 (US$ 5/25 por MTok). Mas gera mais tokens por conta do tokenizer e do raciocínio extra.</td></tr>
-        <tr><td><strong>Opus 4.7 é melhor?</strong></td><td>Sim, em tarefas difíceis. Para tarefas comuns, a diferença para Sonnet é mínima e não justifica o custo.</td></tr>
-        <tr><td><strong>Como economizar?</strong></td><td>Escolher o modelo certo, conversas curtas, pedir concisão, e usar prompt caching/batch na API.</td></tr>
+        <tr><td>Qual modelo devo usar?</td><td>Sonnet 4.6 para a maioria das tarefas. Haiku para volume e custo. Opus apenas quando necessário.</td></tr>
+        <tr><td>Por que está acabando rápido?</td><td>Provavelmente você está usando Opus para tudo. O tokenizer do 4.7 também gera 1–1,35× mais tokens.</td></tr>
+        <tr><td>Opus 4.7 custa mais?</td><td>O preço por token é idêntico ao 4.6 (US$ 5/25 por MTok). Mas gera mais tokens pelo tokenizer novo e raciocínio extra.</td></tr>
+        <tr><td>Opus 4.7 é melhor?</td><td>Sim, em tarefas difíceis. Para tarefas comuns a diferença é mínima e não justifica o custo.</td></tr>
+        <tr><td>Como economizar?</td><td>Escolher o modelo certo, conversas curtas, pedir concisão, e usar prompt caching/batch na API.</td></tr>
       </tbody>
     </table>
   </div>
 
   <hr class="guide-divider">
+
+  <!-- 1 -->
   <div class="guide-section">
     <h2 class="guide-h1">1. Como funciona o consumo de tokens</h2>
     <p class="guide-p">A Anthropic cobra pelo uso dos modelos Claude com base em <strong>tokens</strong>. Tokens são as unidades básicas de processamento de texto: cada palavra gera aproximadamente 1 a 2 tokens, dependendo do idioma e da complexidade. O português tende a consumir mais tokens por palavra do que o inglês.</p>
     <p class="guide-p">Existem dois tipos de tokens cobrados de forma diferente:</p>
     <ul class="guide-ul">
-      <li><strong>Tokens de input (entrada):</strong> o texto que você envia ao modelo, incluindo instruções, contexto, documentos anexados e histórico de conversa.</li>
-      <li><strong>Tokens de output (saída):</strong> o texto que o modelo gera como resposta. Custam entre 3× e 5× mais que os de input, dependendo do modelo.</li>
+      <li><strong>Tokens de input (entrada):</strong> o texto que você envia ao modelo, incluindo instruções, contexto, documentos e histórico de conversa.</li>
+      <li><strong>Tokens de output (saída):</strong> o texto que o modelo gera como resposta. Custam entre 3× e 5× mais que os de input.</li>
     </ul>
-    <p class="guide-p"><strong>O custo total de uma conversa depende de três fatores principais:</strong></p>
+    <p class="guide-p"><strong>O custo total de uma conversa depende de três fatores:</strong></p>
     <ul class="guide-ul">
       <li>Qual modelo você usa (Haiku, Sonnet ou Opus)</li>
       <li>Quanto texto você envia (input) e quanto o modelo gera (output)</li>
-      <li>O comprimento acumulado da conversa: a cada nova mensagem, todo o histórico anterior é reenviado como input</li>
+      <li>O comprimento acumulado da conversa: a cada mensagem, todo o histórico é reenviado como input</li>
     </ul>
     <div class="guide-callout">
       <strong>Atenção:</strong> conversas longas ficam progressivamente mais caras porque o histórico completo é reprocessado a cada turno. Iniciar conversas novas e focadas é uma das formas mais simples de controlar consumo.
@@ -383,130 +622,114 @@
 
     <h2 class="guide-h2">Preços por modelo (por milhão de tokens)</h2>
     <table class="guide-table">
-      <thead>
-        <tr><th>Modelo</th><th>Input</th><th>Output</th><th>Relação de custo</th></tr>
-      </thead>
+      <thead><tr><th>Modelo</th><th>Input</th><th>Output</th><th>Relação de custo</th></tr></thead>
       <tbody>
         <tr><td><strong>Haiku 4.5</strong></td><td>US$ 1</td><td>US$ 5</td><td>1× (base)</td></tr>
         <tr><td><strong>Sonnet 4.6</strong></td><td>US$ 3</td><td>US$ 15</td><td>3×</td></tr>
         <tr><td><strong>Opus 4.6 / 4.7</strong></td><td>US$ 5</td><td>US$ 25</td><td>5×</td></tr>
       </tbody>
     </table>
-    <p class="guide-p">Para usuários do claude.ai (planos Pro e Team), o consumo se traduz em limites de mensagens. O mesmo plano permite significativamente mais mensagens quando se usa Haiku ou Sonnet em vez de Opus. Selecionar o modelo adequado na interface é a alavanca mais direta para não "acabar rápido".</p>
+    <p class="guide-p">Para usuários do claude.ai (planos Pro e Team), o consumo se traduz em limites de mensagens. O mesmo plano permite significativamente mais mensagens com Haiku ou Sonnet em vez de Opus.</p>
   </div>
 
   <hr class="guide-divider">
 
-  <!-- SEÇÃO 2 -->
+  <!-- 2 -->
   <div class="guide-section">
     <h2 class="guide-h1">2. O que mudou do Opus 4.6 para o Opus 4.7</h2>
-    <p class="guide-p">O Opus 4.7, lançado em 16 de abril de 2026, é uma atualização direta do Opus 4.6 com o mesmo preço. No entanto, duas mudanças afetam o consumo de tokens e precisam ser compreendidas.</p>
+    <p class="guide-p">O Opus 4.7, lançado em 16 de abril de 2026, é uma atualização direta do Opus 4.6 com o mesmo preço. Duas mudanças afetam o consumo de tokens e precisam ser compreendidas.</p>
 
     <h2 class="guide-h2">2.1 Tokenizer atualizado</h2>
-    <p class="guide-p">O Opus 4.7 utiliza um novo tokenizer que melhora o processamento de texto, mas faz com que o mesmo conteúdo possa gerar de 1,0× a 1,35× mais tokens de input. Isso significa que enviar exatamente o mesmo prompt pode custar até 35% mais tokens do que antes, dependendo do tipo de conteúdo.</p>
+    <p class="guide-p">O Opus 4.7 utiliza um novo tokenizer que pode gerar de 1,0× a 1,35× mais tokens de input. O mesmo prompt pode custar até 35% mais tokens do que antes.</p>
 
     <h2 class="guide-h2">2.2 Mais raciocínio interno (thinking)</h2>
-    <p class="guide-p">O modelo "pensa mais" nos níveis de esforço mais altos, especialmente em conversas longas e em cenários de uso agente. Isso melhora a confiabilidade em problemas difíceis, mas produz mais tokens de output.</p>
+    <p class="guide-p">O modelo "pensa mais" nos níveis de esforço mais altos, especialmente em conversas longas. Isso melhora a confiabilidade em problemas difíceis, mas produz mais tokens de output.</p>
 
     <h2 class="guide-h2">2.3 Melhorias concretas</h2>
     <ul class="guide-ul">
-      <li><strong>Melhor seguimento de instruções:</strong> o modelo interpreta orientações de forma mais literal e precisa.</li>
+      <li><strong>Melhor seguimento de instruções:</strong> interpreta orientações de forma mais literal e precisa.</li>
       <li><strong>Visão aprimorada:</strong> aceita imagens com até 2.576 pixels na borda longa (3,75 megapixels), 3× mais que modelos anteriores.</li>
-      <li><strong>Código mais confiável:</strong> resultado 13% superior ao 4.6 em benchmarks de coding.</li>
-      <li><strong>Melhor autonomia:</strong> ideal para tarefas longas e autônomas, com capacidade de verificar seus próprios outputs.</li>
+      <li><strong>Código mais confiável:</strong> 13% superior ao 4.6 em benchmarks de coding.</li>
+      <li><strong>Melhor autonomia:</strong> ideal para tarefas longas, com capacidade de verificar seus próprios outputs.</li>
       <li><strong>Novo nível de esforço xhigh:</strong> controle mais fino entre high e max para balancear qualidade e custo.</li>
     </ul>
 
     <h2 class="guide-h2">2.4 Impacto prático no consumo</h2>
-    <p class="guide-p">Segundo a Anthropic, o efeito líquido é favorável: em suas avaliações internas de coding, o consumo total de tokens melhorou em todos os níveis de effort. No entanto, em uso interativo com muitos turnos, o consumo pode ser maior por causa do raciocínio adicional.</p>
     <div class="guide-callout">
-      <strong>Ponto-chave:</strong> quanto mais você fragmenta a tarefa em muitos turnos, mais overhead de tokens você injeta. Com o Opus 4.7, a mudança de mentalidade recomendada é delegar tarefas completas logo no primeiro turno, com contexto estruturado, em vez de fazer micro-ajustes passo a passo.
+      <strong>Ponto-chave:</strong> quanto mais você fragmenta a tarefa em muitos turnos, mais overhead de tokens você injeta. A recomendação com o Opus 4.7 é delegar tarefas completas no primeiro turno — objetivo, escopo, restrições e critérios de aceitação — em vez de micro-ajustes passo a passo.
     </div>
   </div>
 
   <hr class="guide-divider">
 
-  <!-- SEÇÃO 3 -->
+  <!-- 3 -->
   <div class="guide-section">
     <h2 class="guide-h1">3. Qual modelo usar para cada tipo de trabalho</h2>
-    <p class="guide-p">A regra prática é simples: comece pelo Sonnet, suba para o Opus só quando o Sonnet falhar de forma consistente, e desça para o Haiku quando for volume, classificação ou texto curto.</p>
+    <p class="guide-p">A regra prática: comece pelo Sonnet, suba para o Opus só quando o Sonnet falhar de forma consistente, e desça para o Haiku quando for volume, classificação ou texto curto.</p>
 
     <h2 class="guide-h2">3.1 Haiku 4.5 — Rápido e econômico</h2>
-    <p class="guide-p"><strong>Custo:</strong> US$ 1 / US$ 5 por milhão de tokens. O modelo mais barato e rápido da família.</p>
-    <p class="guide-p"><strong>Quando usar:</strong></p>
+    <p class="guide-p"><strong>Custo:</strong> US$ 1 / US$ 5 por milhão de tokens.</p>
     <ul class="guide-ul">
       <li>Classificação de documentos, extração de dados, tagging e triagem</li>
       <li>Resumos de textos curtos e respostas a perguntas simples (FAQ)</li>
       <li>Conversões de formato (CSV para JSON, markdown para texto, etc.)</li>
       <li>Drafts de e-mails curtos e comunicações padronizadas</li>
       <li>Moderação de conteúdo e pipelines de alto volume</li>
-      <li>Qualquer tarefa onde a alternativa seria "não automatizar porque ficaria caro"</li>
     </ul>
-    <p class="guide-p"><strong>Quando não usar:</strong></p>
-    <ul class="guide-ul">
-      <li>Raciocínio multi-etapas, análises complexas ou produção de código longo</li>
-      <li>Tarefas com muitas restrições simultâneas ou instruções ambíguas</li>
-    </ul>
+    <p class="guide-p"><strong>Quando não usar:</strong> raciocínio multi-etapas, análises complexas, código longo, ou tarefas com instruções ambíguas.</p>
 
     <h2 class="guide-h2">3.2 Sonnet 4.6 — O modelo padrão para 80–90% do trabalho</h2>
-    <p class="guide-p"><strong>Custo:</strong> US$ 3 / US$ 15 por milhão de tokens. Melhor relação custo-benefício para tarefas profissionais.</p>
-    <p class="guide-p"><strong>Quando usar:</strong></p>
+    <p class="guide-p"><strong>Custo:</strong> US$ 3 / US$ 15 por milhão de tokens.</p>
     <ul class="guide-ul">
       <li>Código do dia a dia: escrever funções, revisar PRs, refatorar módulos</li>
       <li>Redação: posts, documentação, propostas, relatórios, e-mails complexos</li>
-      <li>Síntese e comparação de múltiplas fontes (pesquisa, análises)</li>
+      <li>Síntese e comparação de múltiplas fontes</li>
       <li>Análise de dados tabulares de complexidade média</li>
       <li>Workflows multi-step com instruções detalhadas</li>
       <li>Agentes que chamam ferramentas (tool use / function calling)</li>
     </ul>
     <div class="guide-callout">Desenvolvedores usando Claude Code preferiram Sonnet 4.6 sobre o Opus 4.5 em 59% dos casos. Para a grande maioria do trabalho, Sonnet entrega qualidade equivalente a uma fração do custo.</div>
-    <p class="guide-p"><strong>Quando não usar:</strong></p>
-    <ul class="guide-ul">
-      <li>Problemas de raciocínio muito difíceis (race conditions, algoritmos novos, 5+ hipóteses simultâneas)</li>
-      <li>Tarefas autônomas de longa duração (horas) onde erros intermediários comprometem tudo</li>
-    </ul>
+    <p class="guide-p"><strong>Quando não usar:</strong> problemas de raciocínio muito difíceis ou agentes autônomos de longa duração onde erros intermediários comprometem tudo.</p>
 
     <h2 class="guide-h2">3.3 Opus 4.7 — Para quando a qualidade é inegociável</h2>
-    <p class="guide-p"><strong>Custo:</strong> US$ 5 / US$ 25 por milhão de tokens. Modelo mais inteligente disponível ao público.</p>
-    <p class="guide-p"><strong>Quando usar:</strong></p>
+    <p class="guide-p"><strong>Custo:</strong> US$ 5 / US$ 25 por milhão de tokens.</p>
     <ul class="guide-ul">
       <li>Decisões de arquitetura de software sobre codebases grandes e complexos</li>
       <li>Debug de problemas difíceis (concorrência, memory leaks, race conditions)</li>
       <li>Análises jurídicas ou regulatórias com múltiplas restrições interdependentes</li>
       <li>Modelagem financeira com lógica condicional complexa</li>
       <li>Agentes autônomos de longa duração que precisam de consistência por horas</li>
-      <li>Tarefas que o Sonnet comprovadamente falhou com consistência</li>
       <li>Leitura e interpretação de imagens de alta resolução (diagramas, screenshots densos)</li>
     </ul>
-    <div class="guide-callout"><strong>Não use Opus "para garantir".</strong> Use quando o custo de uma resposta errada justificar o custo do modelo. Se você não consegue explicar por que Sonnet não serve para aquela tarefa específica, provavelmente Sonnet serve.</div>
+    <div class="guide-callout"><strong>Não use Opus "para garantir".</strong> Se você não consegue explicar por que Sonnet não serve para aquela tarefa específica, provavelmente Sonnet serve.</div>
   </div>
 
   <hr class="guide-divider">
 
-  <!-- SEÇÃO 4 -->
+  <!-- 4 -->
   <div class="guide-section">
     <h2 class="guide-h1">4. Qual modelo usar: guia por tarefa</h2>
-    <p class="guide-p">Para cada tipo de tarefa há um modelo certo. A tabela abaixo indica diretamente qual usar — sem gradações, sem ambiguidade.</p>
+    <p class="guide-p">Para cada tipo de tarefa há um modelo certo. Uma linha, uma resposta, sem ambiguidade.</p>
 
     <table class="guide-table">
       <thead>
         <tr><th>Tipo de tarefa</th><th>Use este modelo</th><th>Por quê</th></tr>
       </thead>
       <tbody>
-        <tr><td>Classificar / tagear documentos</td><td><strong>Haiku 4.5</strong></td><td>Tarefa simples e repetitiva — Haiku é suficiente e muito mais barato</td></tr>
-        <tr><td>Resumo de texto curto</td><td><strong>Haiku 4.5</strong></td><td>Não exige raciocínio complexo; velocidade e custo são o que importam</td></tr>
-        <tr><td>Conversão de formatos (CSV → JSON etc.)</td><td><strong>Haiku 4.5</strong></td><td>Tarefa estruturada e previsível; Haiku executa com precisão</td></tr>
-        <tr><td>E-mail curto / padronizado</td><td><strong>Haiku 4.5</strong></td><td>Saída pequena e bem definida; não justifica modelo mais caro</td></tr>
-        <tr><td>Escrever / revisar código</td><td><strong>Sonnet 4.6</strong></td><td>Equilíbrio ideal entre qualidade de código e custo</td></tr>
-        <tr><td>Redação: posts, docs, relatórios</td><td><strong>Sonnet 4.6</strong></td><td>Cobre 80–90% das tarefas de escrita profissional com excelência</td></tr>
-        <tr><td>Análise de dados</td><td><strong>Sonnet 4.6</strong></td><td>Raciocínio analítico sólido sem precisar do poder máximo do Opus</td></tr>
-        <tr><td>Síntese de múltiplas fontes</td><td><strong>Sonnet 4.6</strong></td><td>Capacidade de cruzar informações é suficiente no Sonnet</td></tr>
-        <tr><td>Workflows multi-step / agentes simples</td><td><strong>Sonnet 4.6</strong></td><td>Segue instruções complexas com confiabilidade adequada</td></tr>
-        <tr><td>Arquitetura de software complexo</td><td><strong>Opus 4.7</strong></td><td>Decisões de alto impacto que exigem raciocínio profundo e consistente</td></tr>
-        <tr><td>Debug difícil (race conditions, memory leaks)</td><td><strong>Opus 4.7</strong></td><td>Problemas que o Sonnet não resolve de forma consistente</td></tr>
-        <tr><td>Análise jurídica / regulatória densa</td><td><strong>Opus 4.7</strong></td><td>Múltiplas restrições interdependentes exigem o modelo mais preciso</td></tr>
-        <tr><td>Agentes autônomos de longa duração</td><td><strong>Opus 4.7</strong></td><td>Erros intermediários comprometem tudo; consistência é inegociável</td></tr>
-        <tr><td>Leitura de imagens de alta resolução</td><td><strong>Opus 4.7</strong></td><td>Visão 3× mais poderosa que modelos anteriores (até 3,75 MP)</td></tr>
+        <tr><td>Classificar / tagear documentos</td><td><span class="guide-model-cell">Haiku 4.5</span></td><td>Tarefa simples e repetitiva — Haiku é suficiente e muito mais barato</td></tr>
+        <tr><td>Resumo de texto curto</td><td><span class="guide-model-cell">Haiku 4.5</span></td><td>Não exige raciocínio complexo; velocidade e custo são o que importam</td></tr>
+        <tr><td>Conversão de formatos (CSV → JSON)</td><td><span class="guide-model-cell">Haiku 4.5</span></td><td>Tarefa estruturada e previsível; Haiku executa com precisão</td></tr>
+        <tr><td>E-mail curto / padronizado</td><td><span class="guide-model-cell">Haiku 4.5</span></td><td>Saída pequena e bem definida; não justifica modelo mais caro</td></tr>
+        <tr><td>Escrever / revisar código</td><td><span class="guide-model-cell">Sonnet 4.6</span></td><td>Equilíbrio ideal entre qualidade de código e custo</td></tr>
+        <tr><td>Redação: posts, docs, relatórios</td><td><span class="guide-model-cell">Sonnet 4.6</span></td><td>Cobre 80–90% das tarefas de escrita profissional com excelência</td></tr>
+        <tr><td>Análise de dados</td><td><span class="guide-model-cell">Sonnet 4.6</span></td><td>Raciocínio analítico sólido sem precisar do poder máximo do Opus</td></tr>
+        <tr><td>Síntese de múltiplas fontes</td><td><span class="guide-model-cell">Sonnet 4.6</span></td><td>Capacidade de cruzar informações é suficiente no Sonnet</td></tr>
+        <tr><td>Workflows multi-step / agentes simples</td><td><span class="guide-model-cell">Sonnet 4.6</span></td><td>Segue instruções complexas com confiabilidade adequada</td></tr>
+        <tr><td>Arquitetura de software complexo</td><td><span class="guide-model-cell">Opus 4.7</span></td><td>Decisões de alto impacto que exigem raciocínio profundo e consistente</td></tr>
+        <tr><td>Debug difícil (race conditions, leaks)</td><td><span class="guide-model-cell">Opus 4.7</span></td><td>Problemas que o Sonnet não resolve de forma consistente</td></tr>
+        <tr><td>Análise jurídica / regulatória densa</td><td><span class="guide-model-cell">Opus 4.7</span></td><td>Múltiplas restrições interdependentes exigem o modelo mais preciso</td></tr>
+        <tr><td>Agentes autônomos de longa duração</td><td><span class="guide-model-cell">Opus 4.7</span></td><td>Erros intermediários comprometem tudo; consistência é inegociável</td></tr>
+        <tr><td>Leitura de imagens de alta resolução</td><td><span class="guide-model-cell">Opus 4.7</span></td><td>Visão 3× mais poderosa que modelos anteriores (até 3,75 MP)</td></tr>
       </tbody>
     </table>
 
@@ -517,13 +740,13 @@
 
   <hr class="guide-divider">
 
-  <!-- SEÇÃO 5 -->
+  <!-- 5 -->
   <div class="guide-section">
     <h2 class="guide-h1">5. Dicas práticas para reduzir consumo</h2>
 
     <h2 class="guide-h2">5.1 Para usuários do claude.ai</h2>
     <ul class="guide-ul">
-      <li><strong>Selecione o modelo certo na interface.</strong> Use o seletor de modelo antes de cada conversa. Não deixe tudo em Opus por padrão.</li>
+      <li><strong>Selecione o modelo certo na interface.</strong> Use o seletor antes de cada conversa. Não deixe tudo em Opus por padrão.</li>
       <li><strong>Conversas curtas e focadas.</strong> Cada mensagem reprocessa o histórico inteiro. Conversas longas ficam exponencialmente mais caras.</li>
       <li><strong>Envie apenas o necessário.</strong> Não cole PDFs de 100 páginas para perguntar algo específico. Extraia o trecho relevante.</li>
       <li><strong>Peça concisão.</strong> Inclua no prompt: "responda em no máximo X frases" ou "seja breve". Output custa 3–5× mais que input.</li>
@@ -534,14 +757,14 @@
       <li><strong>Use o parâmetro effort.</strong> No Opus 4.7: low e medium para tarefas simples, high para a maioria, xhigh apenas para problemas realmente difíceis.</li>
       <li><strong>Prompt caching.</strong> Reduz custos de input em até 90% para system prompts e contextos repetitivos. Indispensável.</li>
       <li><strong>Batch API.</strong> 50% de desconto para requisições assíncronas que não precisam de resposta imediata.</li>
-      <li><strong>Delegue tarefas completas no primeiro turno.</strong> Com Opus 4.7, micro-turnos geram overhead. Estruture objetivo, escopo, restrições e critérios de aceitação logo no primeiro prompt.</li>
-      <li><strong>Roteamento de modelos.</strong> Use Haiku para classificar a requisição, Sonnet para processar, e Opus só para escalar casos difíceis. Pode reduzir custos em 60–70%.</li>
+      <li><strong>Delegue tarefas completas no primeiro turno.</strong> Estruture objetivo, escopo, restrições e critérios de aceitação logo no primeiro prompt.</li>
+      <li><strong>Roteamento de modelos.</strong> Use Haiku para classificar, Sonnet para processar, e Opus só para escalar casos difíceis. Pode reduzir custos em 60–70%.</li>
     </ul>
   </div>
 
   <footer>
-    <p>Fontes: anthropic.com/news/claude-opus-4-7 · platform.claude.com/docs</p>
-    <p class="tagline">Sonnet primeiro. Sempre.</p>
+    <p>anthropic.com/news/claude-opus-4-7 · platform.claude.com/docs</p>
+    <p class="tagline">Sonnet <span class="accent">primeiro.</span> Sempre.</p>
   </footer>
 
 </div>
